@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login page</title>
+  </head>
+  <body>
+    <form id="formid">
+      <input type="text" id="email" name="email" placeholder="email" />
+      <input type="text" id="password" name="password" placeholder="password" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      const form = document.getElementById("formid");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        const obj = {
+          email,
+          password,
+        };
+
+        let response = await fetch("http://localhost:3000/login", {
+          method: "POST",
+          body: obj,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(obj),
+        });
+        response = await response.json();
+        console.log(response);
+        if (response.success) {
+          document.cookie = `isAuth=${response.session.isAuth}`;
+        } else {
+          alert("Login failed");
+        }
+      });
+    </script>
+  </body>
+</html>
