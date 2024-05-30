@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo app</title>
+</head>
+<body>
+    <h2>Todo app</h2>
+    <form method="post" action="http://localhost:3000/addtask" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 5px;" id="t-container">
+        <input type="text" id="title" placeholder="title">
+        <input type="text" id="id" placeholder="id">
+        <input type="text" id="status" placeholder="status">
+        <button type="submit">Add Task</button>
+    </form>
+
+    <script>
+        let form = document.getElementById('t-container');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            let title = document.getElementById('title').value.trim();
+            let id = document.getElementById('id').value.trim();
+            let status = document.getElementById('status').value.trim();
+
+            let obj = {
+                title : title,
+                id : id,
+                status : status
+            }
+
+            await fetch('http://localhost:3000/addtask', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            })
+        })
+
+    </script>
+</body>
+</html>

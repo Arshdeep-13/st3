@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+  </head>
+  <body>
+    <h1>Login page</h1>
+    <form id="login" method="post">
+      <input type="email" name="email" id="email" placeholder="Email" />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+      />
+      <button type="submit">Login</button>
+    </form>
+
+    <script>
+      const form = document.getElementById("login");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        let res = await fetch("/login", {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        res = await res.json();
+        if (res.session.cookie) {
+          alert(res.message);
+          window.location = "http://localhost:3000/success";
+        }
+      });
+    </script>
+  </body>
+</html>
